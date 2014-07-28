@@ -40,7 +40,7 @@ describe('gulp-html-extend', function () {
     it('should pass file when it isStream()', function (done) {
 
         var instance = plugin()
-        var emptyFile = {
+        var stream = {
             isNull: function () { return false },
             isStream: function () { return true }
         }
@@ -48,7 +48,7 @@ describe('gulp-html-extend', function () {
             error.message.should.equal('Streaming is not supported')
             done()
         })
-        instance.write(emptyFile)
+        instance.write(stream)
     })
 
     it('should extend single html file', function (done) {
