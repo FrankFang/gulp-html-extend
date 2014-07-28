@@ -15,7 +15,7 @@
     "replace"
   ],
   "author": "frankfang",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "dependencies": {
     "through2": "~0.5.1",
     "gulp-util": "~3.0.0"
