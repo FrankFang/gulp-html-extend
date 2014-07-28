@@ -1,29 +1,30 @@
 {
-    "name": "gulp-html-extend",
-    "version": "0.0.1",
-    "description": "Make it easy to extend html",
-    "main": "index.js",
-    "scripts": {
-        "test": "mocha"
-    },
-    "keywords": [
-        "gulp",
-        "html",
-        "master",
-        "extend",
-        "include",
-        "replace"
-    ],
-    "author": "frankfang",
-    "license": "BSD-2-Clause",
-    "dependencies": {
-        "through2": "~0.5.1",
-        "gulp-util": "~3.0.0"
-    },
-    "devDependencies": {
-        "event-stream": "~3.1.7",
-        "chai": "~1.9.1",
-        "mocha": "~1.21.0",
-        "vinyl": "~0.3.0"
-    }
+  "name": "gulp-html-extend",
+  "version": "0.0.1",
+  "description": "Make it easy to extend html",
+  "main": "index.js",
+  "scripts": {
+    "test": "jshint index.js && mocha -R spec"
+  },
+  "keywords": [
+    "gulp",
+    "html",
+    "master",
+    "extend",
+    "include",
+    "replace"
+  ],
+  "author": "frankfang",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "through2": "~0.5.1",
+    "gulp-util": "~3.0.0"
+  },
+  "devDependencies": {
+    "event-stream": "~3.1.7",
+    "chai": "~1.9.1",
+    "mocha": "~1.21.0",
+    "vinyl": "~0.3.0",
+    "should": "~4.0.4"
+  }
 }

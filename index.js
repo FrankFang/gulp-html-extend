@@ -4,7 +4,7 @@
 
 var fs = require('fs')
 var path = require('path')
-var through = require('through2')
+var through2 = require('through2')
 var gUtil = require('gulp-util')
 var PluginError = gUtil.PluginError
 var es = require('event-stream')
@@ -12,12 +12,11 @@ var es = require('event-stream')
 var pkg = require('./package.json')
 
 
-function plugin(options) {
+module.exports = function (options) {
+
     options = options || {}
 
-    var prefix = new Buffer('hi ')
-
-    var extender = through.obj(function (file, enc, cb) {
+    return through2.obj(function (file, enc, cb) {
 
         if (file.isNull()) {
             this.push(file)
@@ -33,12 +32,11 @@ function plugin(options) {
         }
 
         if (file.isStream()) {
-            return new PluginError(pkg.name, 'Streaming is not supported')
+            return cb(new PluginError(pkg.name, 'Streaming is not supported'))
         }
 
     })
 
-    return extender
 }
 
 function makeFile(absolutePath, cb) {
@@ -60,7 +58,7 @@ function extendFile(file, afterExtend) {
         return
     }
 
-    var masterAbsolute = path.join(file.base, masterRelativePath)
+    var masterAbsolute = path.join(path.dirname(file.path), masterRelativePath)
 
     makeFile(masterAbsolute, function (masterFile) {
 
@@ -136,4 +134,3 @@ function splitByLine(string) {
     return string.split(/\n|\r|\r\n/)
 }
 
-module.exports = plugin
