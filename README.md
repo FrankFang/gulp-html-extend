@@ -87,4 +87,4 @@ gulp.task('default', ['clean', 'extend'])
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Frank Fang](http://frankfang.com)
