@@ -1,6 +1,6 @@
 {
     "name": "gulp-html-extend",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Make it easy to extend html",
     "main": "index.js",
     "scripts": {
