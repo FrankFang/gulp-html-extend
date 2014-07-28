@@ -2,6 +2,7 @@
     "name": "gulp-html-extend",
     "version": "0.0.3",
     "description": "Make it easy to extend html",
+    "repository": "FrankFang/gulp-html-extend.git",
     "main": "index.js",
     "scripts": {
         "test": "jshint index.js && mocha -R spec"
@@ -14,12 +15,12 @@
         "include",
         "replace"
     ],
-    "author": "frankfang",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/FrankFang/gulp-html-extend.git"
+    "author": {
+        "name": "Frank Fang",
+        "email": "frankfang1990@gmail.com",
+        "url": "http://frankfang.com"
     },
+    "license": "MIT",
     "dependencies": {
         "through2": "~0.5.1",
         "gulp-util": "~3.0.0",
