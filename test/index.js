@@ -37,7 +37,7 @@ describe('gulp-html-extend', function () {
         instance.write(emptyFile)
     })
 
-    it('should pass file when it isStream()', function (done) {
+    it('should emit an error when it isStream()', function (done) {
 
         var instance = plugin()
         var stream = {
