@@ -91,14 +91,14 @@ function extendFile(file, afterExtend) {
 }
 
 function findMaster(string) {
-    var regex = /<!--\s*@@master=\s*(\S+)\s*-->/
+    var regex = /<!--\s*@@master\s*=\s*(\S+)\s*-->/
     var match = string.match(regex)
     return match ? match[1] : null
 
 }
 
 function findPlaceholder(string) {
-    var regex = /<!--\s*@@placeholder=\s*(\S+)\s*-->/
+    var regex = /<!--\s*@@placeholder\s*=\s*(\S+)\s*-->/
     var match = string.match(regex)
     return match ? match[1] : null
 }
@@ -107,7 +107,7 @@ function getBlockContent(string, blockName) {
     var result = ''
     var lines = splitByLine(string)
     var inBlock = false
-    var regex = new RegExp('<!--\\s*@@block=\\s*' + blockName + '\\s*-->')
+    var regex = new RegExp('<!--\\s*@@block\\s*=\\s*' + blockName + '\\s*-->')
 
     return [ '<!-- start ' + blockName + ' -->',
         lines.reduce(function (prev, current) {
