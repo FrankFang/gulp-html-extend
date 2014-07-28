@@ -53,15 +53,6 @@ function makeFile(absolutePath, cb) {
     })
 }
 
-function makeFileSync(absolutePath) {
-    var contents = fs.readFileSync(absolutePath, {flag: 'r'})
-    var file = new gUtil.File({
-        base: path.dirname(absolutePath),
-        path: absolutePath,
-        contents: new Buffer(contents),
-    })
-    return file
-}
 
 function extendFile(file, afterExtend) {
     var masterRelativePath = findMaster(file.contents.toString('utf-8'))
