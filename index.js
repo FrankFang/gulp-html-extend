@@ -11,9 +11,12 @@ var es = require('event-stream')
 
 var pkg = require('./package.json')
 
-function makeStream(prefixText) {
-    var stream = through();
-    stream.write(prefixText);
+function makeStream() {
+    var stream = through(function () {
+        console.log("Object.keys(this):")
+        console.log(Object.keys(this))
+        this.queue('1')
+    });
     return stream;
 }
 
@@ -29,7 +32,7 @@ function plugin(options) {
         }
 
         if (file.isBuffer()) {
-//            console.log('file is buffer')
+            console.log('file is buffer')
 
             extendFile(file, function () {
                 this.push(file)
@@ -40,10 +43,61 @@ function plugin(options) {
         }
 
         if (file.isStream()) {
-//            console.log('file is stream')
-            var streamer = makeStream(prefix);
+            console.log('file is stream')
+            var streamer = makeStream();
             streamer.on('error', this.emit.bind(this, 'error'));
-            file.contents = file.contents.pipe(streamer);
+
+            var masterFile
+
+            file.contents = file.contents
+                .pipe(es.split())
+                .pipe(through.obj(function (chunk, enc, next) {
+                    var line = chunk.toString()
+                    if (!masterFile) {
+                        var masterRelativePath = findMaster(line)
+                        masterFile = makeFileSync(path.join(file.base, masterRelativePath))
+                    } else {
+                        this.push('hi \n')
+                        next()
+                        return
+
+//                        var masterAbsolute = path.join(file.base, masterRelativePath)
+//                        makeFile(masterAbsolute, function (masterFile) {
+//
+//                            extendFile(masterFile, function () {
+//
+//                                var masterContent = masterFile.contents.toString()
+//                                var lines = masterContent.split(/\n|\r|\r\n/)
+//
+//                                var newLines = lines.map(function (line, index, array) {
+//                                    var blockName = findPlaceholder(line)
+//                                    if (blockName) {
+//                                        var blockContent = getBlock(file.contents.toString(), blockName)
+//                                        return blockContent || line
+//                                    } else {
+//                                        return line
+//                                    }
+//                                })
+//
+//                                var newContent = newLines.join('\n')
+//
+//                                this.push(newContent)
+//                                next()
+//                                return
+//
+//
+//                            }.bind(this))
+//
+//                        }.bind(this))
+                    }
+
+                    this.push(chunk + '\n')
+                    next()
+                }))
+                .on('end', function () {
+                    cb()
+                })
+            this.push(file)
 
 //            var masterAbsolute = path.join(file.base, masterRelativePath)
 //            var masterReader = fs.createReadStream(masterAbsolute)
@@ -78,6 +132,16 @@ function makeFile(absolutePath, cb) {
     })
 }
 
+function makeFileSync(absolutePath) {
+    var contents = fs.readFileSync(absolutePath, {flag: 'r'})
+    var file = new gutil.File({
+        base: path.dirname(absolutePath),
+        path: absolutePath,
+        contents: new Buffer(contents),
+    })
+    return file
+}
+
 function extendFile(file, afterExtend) {
     var masterRelativePath = findMaster(file.contents.toString('utf-8'))
     if (!masterRelativePath) {
@@ -97,7 +161,7 @@ function extendFile(file, afterExtend) {
             var newLines = lines.map(function (line, index, array) {
                 var blockName = findPlaceholder(line)
                 if (blockName) {
-                    var blockContent = getBlock(file.contents.toString(), blockName)
+                    var blockContent = getBlockContent(file.contents.toString(), blockName)
                     return blockContent || line
                 } else {
                     return line
@@ -133,7 +197,7 @@ function findPlaceholder(string) {
     var match = string.match(regex)
     return match ? match[1] : null
 }
-function getBlock(string, blockName) {
+function getBlockContent(string, blockName) {
     var result = ''
     var lines = splitByLine(string)
     var inBlock = false
