@@ -53,7 +53,6 @@ function makeFile(absolutePath, cb) {
     })
 }
 
-
 function extendFile(file, afterExtend) {
     var masterRelativePath = findMaster(file.contents.toString('utf-8'))
     if (!masterRelativePath) {
@@ -92,23 +91,19 @@ function extendFile(file, afterExtend) {
 
 }
 
-function include(file) {
-
-    file.contents = new Buffer()
-    return file
-}
-
 function findMaster(string) {
     var regex = /<!--\s*@@master=\s*(\S+)\s*-->/
     var match = string.match(regex)
     return match ? match[1] : null
 
 }
+
 function findPlaceholder(string) {
     var regex = /<!--\s*@@placeholder=\s*(\S+)\s*-->/
     var match = string.match(regex)
     return match ? match[1] : null
 }
+
 function getBlockContent(string, blockName) {
     var result = ''
     var lines = splitByLine(string)
