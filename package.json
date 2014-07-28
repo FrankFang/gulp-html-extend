@@ -1,6 +1,6 @@
 {
     "name": "gulp-html-extend",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Make it easy to extend html",
     "repository": "FrankFang/gulp-html-extend.git",
     "main": "index.js",
