@@ -23,6 +23,10 @@ module.exports = function (options) {
             return cb()
         }
 
+        if (file.isStream()) {
+            return cb(new PluginError(pkg.name, 'Streaming is not supported'))
+        }
+
         if (file.isBuffer()) {
 
             extendFile(file, function () {
@@ -31,9 +35,6 @@ module.exports = function (options) {
             }.bind(this))
         }
 
-        if (file.isStream()) {
-            return cb(new PluginError(pkg.name, 'Streaming is not supported'))
-        }
 
     })
 

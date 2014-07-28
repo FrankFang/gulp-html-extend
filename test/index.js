@@ -37,6 +37,20 @@ describe('gulp-html-extend', function () {
         instance.write(emptyFile)
     })
 
+    it('should pass file when it isStream()', function (done) {
+
+        var instance = plugin()
+        var emptyFile = {
+            isNull: function () { return false },
+            isStream: function () { return true }
+        }
+        instance.on('error', function (error) {
+            error.message.should.equal('Streaming is not supported')
+            done()
+        })
+        instance.write(emptyFile)
+    })
+
     it('should extend single html file', function (done) {
         var htmlFile = createVinyl('c.html')
 
