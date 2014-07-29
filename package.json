@@ -2,7 +2,8 @@
     "name": "gulp-html-extend",
     "version": "0.0.4",
     "description": "Make it easy to extend html",
-    "repository": "FrankFang/gulp-html-extend.git",
+    "repository": "https://github.com/FrankFang/gulp-html-extend.git",
+    "homepage": "https://github.com/FrankFang/gulp-html-extend/issues",
     "main": "index.js",
     "scripts": {
         "test": "jshint index.js && mocha -R spec"
