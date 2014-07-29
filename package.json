@@ -2,7 +2,10 @@
     "name": "gulp-html-extend",
     "version": "0.0.4",
     "description": "Make it easy to extend html",
-    "repository": "https://github.com/FrankFang/gulp-html-extend.git",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/FrankFang/gulp-html-extend.git"
+    },
     "homepage": "https://github.com/FrankFang/gulp-html-extend/issues",
     "main": "index.js",
     "scripts": {
