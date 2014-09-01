@@ -54,6 +54,22 @@ function makeFile(absolutePath, cb) {
 
 function extendFile(file, afterExtend) {
 
+    var fileContent = file.contents.toString()
+    var fileLines = splitByLine(fileContent)
+
+    var includedLines = fileLines.map(function (line) {
+        var includeRelativePath = findInclude(line)
+        if (includeRelativePath) {
+            var includeAbsolutePath = path.join(file.base, includeRelativePath)
+            return fs.readFileSync(includeAbsolutePath)
+        } else {
+            return line
+        }
+    })
+
+    file.contents = new Buffer(includedLines.join('\n'))
+
+
     var masterRelativePath = findMaster(file.contents.toString('utf-8'))
     if (!masterRelativePath) {
         afterExtend()
@@ -79,17 +95,7 @@ function extendFile(file, afterExtend) {
                 }
             })
 
-            var includedLines = splitByLine(newLines.join('\n')).map(function (line) {
-                var includeRelativePath = findInclude(line)
-                if (includeRelativePath) {
-                    var includeAbsolutePath = path.join(masterFile.base, includeRelativePath)
-                    return fs.readFileSync(includeAbsolutePath)
-                } else {
-                    return line
-                }
-            })
-
-            var newContent = includedLines.join('\n')
+            var newContent = newLines.join('\n')
 
             file.contents = new Buffer(newContent)
 
