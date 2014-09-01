@@ -53,6 +53,7 @@ function makeFile(absolutePath, cb) {
 }
 
 function extendFile(file, afterExtend) {
+
     var masterRelativePath = findMaster(file.contents.toString('utf-8'))
     if (!masterRelativePath) {
         afterExtend()
@@ -78,7 +79,17 @@ function extendFile(file, afterExtend) {
                 }
             })
 
-            var newContent = newLines.join('\n')
+            var includedLines = splitByLine(newLines.join('\n')).map(function (line) {
+                var includeRelativePath = findInclude(line)
+                if (includeRelativePath) {
+                    var includeAbsolutePath = path.join(masterFile.base, includeRelativePath)
+                    return fs.readFileSync(includeAbsolutePath)
+                } else {
+                    return line
+                }
+            })
+
+            var newContent = includedLines.join('\n')
 
             file.contents = new Buffer(newContent)
 
@@ -92,6 +103,13 @@ function extendFile(file, afterExtend) {
 
 function findMaster(string) {
     var regex = /<!--\s*@@master\s*=\s*(\S+)\s*-->/
+    var match = string.match(regex)
+    return match ? match[1] : null
+
+}
+
+function findInclude(string) {
+    var regex = /<!--\s*@@include\s*=\s*(\S+)\s*-->/
     var match = string.match(regex)
     return match ? match[1] : null
 
