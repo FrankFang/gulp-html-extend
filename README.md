@@ -84,6 +84,9 @@ gulp.task('clean', function (cb) {
 gulp.task('default', ['clean', 'extend'])
 ```
 
+## Changelog
+
+### 0.1.0 Add `@@include = foo.html`
 
 ## License
 
