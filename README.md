@@ -86,7 +86,7 @@ gulp.task('default', ['clean', 'extend'])
 
 ## Changelog
 
-* 0.1.2 include path bug fixed.
+* 0.1.2 Include path bug fixed.
 * 0.1.0 Add `@@include = foo.html` support
 
 ## License
