@@ -60,7 +60,7 @@ function extendFile(file, afterExtend) {
     var includedLines = fileLines.map(function (line) {
         var includeRelativePath = findInclude(line)
         if (includeRelativePath) {
-            var includeAbsolutePath = path.join(file.base, includeRelativePath)
+            var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
             return fs.readFileSync(includeAbsolutePath)
         } else {
             return line
