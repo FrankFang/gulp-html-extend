@@ -19,8 +19,7 @@ module.exports = function (options) {
     return through2.obj(function (file, enc, cb) {
 
         if (file.isNull()) {
-            this.push(file)
-            return cb()
+            return cb(null, file)
         }
 
         if (file.isStream()) {
@@ -29,10 +28,9 @@ module.exports = function (options) {
 
         if (file.isBuffer()) {
 
-            extendFile(file, function () {
-                this.push(file)
-                return cb()
-            }.bind(this))
+            extendFile(file, function (noMaster) {
+                return cb(null, file)
+            })
         }
 
 
