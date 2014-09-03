@@ -19,7 +19,7 @@
   "globals":       {},
   "globalstrict":  false,
   "immed":         false,
-  "indent":        4,
+  "indent":        false,
   "iterator":      false,
   "jquery":        false,
   "lastsemic":     false,
