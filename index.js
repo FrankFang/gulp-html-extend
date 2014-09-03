@@ -61,7 +61,11 @@ function extendFile(file, afterExtend) {
         var includeRelativePath = findInclude(line)
         if (includeRelativePath) {
             var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
-            return fs.readFileSync(includeAbsolutePath)
+            return [
+                    '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
+                fs.readFileSync(includeAbsolutePath),
+                    '<!-- end ' + path.basename(includeAbsolutePath) + '-->'
+            ].join('\n')
         } else {
             return line
         }
