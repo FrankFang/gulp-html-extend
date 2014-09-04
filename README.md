@@ -1,4 +1,4 @@
-# [gulp](http://gulpjs.com)-html-extend [https://travis-ci.org/FrankFang/gulp-html-extend](https://api.travis-ci.org/FrankFang/gulp-html-extend.svg)
+# [gulp](http://gulpjs.com)-html-extend [![https://travis-ci.org/FrankFang/gulp-html-extend](https://api.travis-ci.org/FrankFang/gulp-html-extend.svg)](https://travis-ci.org/FrankFang/gulp-html-extend)
 
 > Extend your HTML
 
