@@ -8,13 +8,20 @@ var through2 = require('through2')
 var gUtil = require('gulp-util')
 var PluginError = gUtil.PluginError
 var es = require('event-stream')
+var extend = require('node.extend')
 
 var pkg = require('./package.json')
 
 
+var defaultOptions = {
+	annotations: true
+}
+
+var _options
+
 module.exports = function (options) {
 
-    options = options || {}
+    _options = extend({},defaultOptions,options||{})
 
     return through2.obj(function (file, enc, cb) {
 
@@ -59,11 +66,15 @@ function extendFile(file, afterExtend) {
         var includeRelativePath = findInclude(line)
         if (includeRelativePath) {
             var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
-            return [
-                    '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
-                fs.readFileSync(includeAbsolutePath),
-                    '<!-- end ' + path.basename(includeAbsolutePath) + '-->'
-            ].join('\n')
+            if(_options.annotations){
+	            return [
+	                    '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
+	                fs.readFileSync(includeAbsolutePath),
+	                    '<!-- end ' + path.basename(includeAbsolutePath) + '-->'
+	            ].join('\n')
+            }else{
+            	return fs.readFileSync(includeAbsolutePath)
+            }
         } else {
             return line
         }
@@ -135,7 +146,7 @@ function getBlockContent(string, blockName) {
     var inBlock = false
     var regex = new RegExp('<!--\\s*@@block\\s*=\\s*' + blockName + '\\s*-->')
 
-    return [ '<!-- start ' + blockName + ' -->',
+    return [ _options.annotations?'<!-- start ' + blockName + ' -->':'',
         lines.reduce(function (prev, current) {
             if (inBlock) {
                 var matchEnd = /<!--\s*@@close\s*-->/.test(current)
@@ -153,7 +164,7 @@ function getBlockContent(string, blockName) {
                 return prev
             }
         }, ''),
-            '\n<!-- end ' + blockName + ' -->'
+            _options.annotations?'\n<!-- end ' + blockName + ' -->':''
     ].join('\n')
 }
 

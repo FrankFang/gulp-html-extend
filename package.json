@@ -1,40 +1,41 @@
 {
-    "name": "gulp-html-extend",
-    "version": "0.1.3",
-    "description": "Make it easy to extend html",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/FrankFang/gulp-html-extend.git"
-    },
-    "homepage": "https://github.com/FrankFang/gulp-html-extend/issues",
-    "main": "index.js",
-    "scripts": {
-        "test": "jshint index.js && mocha -R spec"
-    },
-    "keywords": [
-        "gulp",
-        "html",
-        "master",
-        "extend",
-        "include",
-        "replace"
-    ],
-    "author": {
-        "name": "Frank Fang",
-        "email": "frankfang1990@gmail.com",
-        "url": "http://frankfang.com"
-    },
-    "license": "MIT",
-    "dependencies": {
-        "through2": "~0.5.1",
-        "gulp-util": "~3.0.0",
-        "event-stream": "~3.1.7"
-    },
-    "devDependencies": {
-        "chai": "~1.9.1",
-        "mocha": "~1.21.0",
-        "vinyl": "~0.3.0",
-        "should": "~4.0.4",
-        "jshint": "~2.5.2"
-    }
+  "name": "gulp-html-extend",
+  "version": "0.1.3",
+  "description": "Make it easy to extend html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FrankFang/gulp-html-extend.git"
+  },
+  "homepage": "https://github.com/FrankFang/gulp-html-extend/issues",
+  "main": "index.js",
+  "scripts": {
+    "test": "jshint index.js && mocha -R spec"
+  },
+  "keywords": [
+    "gulp",
+    "html",
+    "master",
+    "extend",
+    "include",
+    "replace"
+  ],
+  "author": {
+    "name": "Frank Fang",
+    "email": "frankfang1990@gmail.com",
+    "url": "http://frankfang.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "event-stream": "~3.1.7",
+    "gulp-util": "~3.0.0",
+    "node.extend": "^1.1.2",
+    "through2": "~0.5.1"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "~1.21.0",
+    "vinyl": "~0.3.0",
+    "should": "~4.0.4",
+    "jshint": "~2.5.2"
+  }
 }
