@@ -67,6 +67,22 @@ describe('gulp-html-extend', function () {
         instance.write(htmlFile)
     })
 
+    it('should disable annotations', function (done) {
+        var htmlFile = createVinyl('c.html')
+
+        var instance = plugin({annotations:false})
+
+        instance.on('data', function (extendedFile) {
+            should.exist(extendedFile)
+            should.exist(extendedFile.contents)
+            extendedFile.contents.toString().should.equal(
+                fs.readFileSync(pj(__dirname, 'expected/c_no_annotations.html'), 'utf8'))
+            done()
+        })
+
+        instance.write(htmlFile)
+    })
+
     it('should extend multiple html files', function (done) {
         var files = [
             createVinyl('c.html'),
