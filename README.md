@@ -86,7 +86,7 @@ gulp.task('default', ['clean', 'extend'])
 
 ## Changelog
 
-* 0.2.0 Annotations can be disabled via a option {annotations:false}
+* 0.2.0 Annotations can be disabled via an option {annotations:false}
 * 0.1.3 Add including annotations.
 * 0.1.2 Include path bug fixed.
 * 0.1.0 Add `@@include = foo.html` support
