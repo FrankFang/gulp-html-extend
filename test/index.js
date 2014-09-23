@@ -1,5 +1,5 @@
 /* Created by frank on 14-7-25. */
-/* global describe, it */
+/* global describe, it, xit */
 'use strict';
 
 var es = require('event-stream')
@@ -70,7 +70,7 @@ describe('gulp-html-extend', function () {
     it('should disable annotations', function (done) {
         var htmlFile = createVinyl('c.html')
 
-        var instance = plugin({annotations:false})
+        var instance = plugin({annotations: false})
 
         instance.on('data', function (extendedFile) {
             should.exist(extendedFile)
