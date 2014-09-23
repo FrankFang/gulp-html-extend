@@ -14,14 +14,22 @@ var pkg = require('./package.json')
 
 
 var defaultOptions = {
-    annotations: true
+    annotations: true,
+    verbose: false
 }
 
+var noop = function () { }
+
 var _options
+var log = noop
 
 module.exports = function (options) {
 
     _options = extend({}, defaultOptions, options || {})
+
+    if (_options.verbose) {
+        log = gUtil.log
+    }
 
     return through2.obj(function (file, enc, cb) {
 
@@ -67,30 +75,9 @@ function makeFile(absolutePath, cb) {
 
 function extendFile(file, afterExtend) {
 
-//    var fileContent = file.contents.toString()
-//    var fileLines = splitByLine(fileContent)
-//
-//    var includedLines = fileLines.map(function (line) {
-//        var includeRelativePath = findInclude(line)
-//        if (includeRelativePath) {
-//            var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
-//            if (_options.annotations) {
-//                return [
-//                        '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
-//                    fs.readFileSync(includeAbsolutePath),
-//                        '<!-- end ' + path.basename(includeAbsolutePath) + '-->'
-//                ].join('\n')
-//            } else {
-//                return fs.readFileSync(includeAbsolutePath)
-//            }
-//        } else {
-//            return line
-//        }
-//    })
-//
-//    file.contents = new Buffer(includedLines.join('\n'))
-    interpolateIncludedContent(file)
+    log('[extend]', file.path)
 
+    interpolateIncludedContent(file)
 
     var masterRelativePath = findMaster(file.contents.toString('utf-8'))
     if (!masterRelativePath) {
@@ -136,6 +123,7 @@ function interpolateIncludedContent(file, done) {
         var includeRelativePath = findInclude(line)
         if (includeRelativePath) {
             var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
+            log('[include]', includeAbsolutePath)
             var includedFile = makeFile(includeAbsolutePath)
             interpolateIncludedContent(includedFile)
             if (_options.annotations) {
