@@ -1,6 +1,6 @@
-# [gulp](http://gulpjs.com)-html-extend [![https://travis-ci.org/FrankFang/gulp-html-extend](https://api.travis-ci.org/FrankFang/gulp-html-extend.svg)](https://travis-ci.org/FrankFang/gulp-html-extend)
+# [gulp] [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
 
-> Extend your HTML
+Extend your HTML
 
 master.html
 
@@ -97,3 +97,13 @@ gulp.task('default', ['clean', 'extend'])
 ## License
 
 MIT &copy; [Frank Fang](http://frankfang.com)
+
+
+[npm-url]: https://npmjs.org/package/gulp-html-extend
+[npm-image]: https://badge.fury.io/js/gulp-html-extend.svg
+[travis-url]: https://travis-ci.org/FrankFang/gulp-html-extend
+[travis-image]: https://travis-ci.org/FrankFang/gulp-html-extend.svg?branch=master
+[coveralls-url]: https://coveralls.io/r/FrankFang/gulp-html-extend
+[coveralls-image]: https://coveralls.io/repos/FrankFang/gulp-html-extend/badge.png
+[depstat-url]: https://david-dm.org/FrankFang/gulp-html-extend
+[depstat-image]: https://david-dm.org/FrankFang/gulp-html-extend.svg
