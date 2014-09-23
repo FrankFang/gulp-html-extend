@@ -14,14 +14,14 @@ var pkg = require('./package.json')
 
 
 var defaultOptions = {
-	annotations: true
+    annotations: true
 }
 
 var _options
 
 module.exports = function (options) {
 
-    _options = extend({},defaultOptions,options||{})
+    _options = extend({}, defaultOptions, options || {})
 
     return through2.obj(function (file, enc, cb) {
 
@@ -46,41 +46,50 @@ module.exports = function (options) {
 }
 
 function makeFile(absolutePath, cb) {
-    fs.readFile(absolutePath, function (error, data) {
-        if (error) { throw error }
-        var file = new gUtil.File({
+    if (cb) {
+        fs.readFile(absolutePath, function (error, data) {
+            if (error) { throw error }
+            var file = new gUtil.File({
+                base: path.dirname(absolutePath),
+                path: absolutePath,
+                contents: new Buffer(data),
+            })
+            cb(file)
+        })
+    } else {
+        return new gUtil.File({
             base: path.dirname(absolutePath),
             path: absolutePath,
-            contents: new Buffer(data),
+            contents: new Buffer(fs.readFileSync(absolutePath)),
         })
-        cb(file)
-    })
+    }
 }
 
 function extendFile(file, afterExtend) {
 
-    var fileContent = file.contents.toString()
-    var fileLines = splitByLine(fileContent)
-
-    var includedLines = fileLines.map(function (line) {
-        var includeRelativePath = findInclude(line)
-        if (includeRelativePath) {
-            var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
-            if(_options.annotations){
-	            return [
-	                    '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
-	                fs.readFileSync(includeAbsolutePath),
-	                    '<!-- end ' + path.basename(includeAbsolutePath) + '-->'
-	            ].join('\n')
-            }else{
-            	return fs.readFileSync(includeAbsolutePath)
-            }
-        } else {
-            return line
-        }
-    })
-
-    file.contents = new Buffer(includedLines.join('\n'))
+//    var fileContent = file.contents.toString()
+//    var fileLines = splitByLine(fileContent)
+//
+//    var includedLines = fileLines.map(function (line) {
+//        var includeRelativePath = findInclude(line)
+//        if (includeRelativePath) {
+//            var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
+//            if (_options.annotations) {
+//                return [
+//                        '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
+//                    fs.readFileSync(includeAbsolutePath),
+//                        '<!-- end ' + path.basename(includeAbsolutePath) + '-->'
+//                ].join('\n')
+//            } else {
+//                return fs.readFileSync(includeAbsolutePath)
+//            }
+//        } else {
+//            return line
+//        }
+//    })
+//
+//    file.contents = new Buffer(includedLines.join('\n'))
+    interpolateIncludedContent(file)
 
 
     var masterRelativePath = findMaster(file.contents.toString('utf-8'))
@@ -120,6 +129,34 @@ function extendFile(file, afterExtend) {
 
 }
 
+function interpolateIncludedContent(file, done) {
+    var fileContent = file.contents.toString()
+    var fileLines = splitByLine(fileContent)
+    var includedLines = fileLines.map(function (line) {
+        var includeRelativePath = findInclude(line)
+        if (includeRelativePath) {
+            var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
+            var includedFile = makeFile(includeAbsolutePath)
+            interpolateIncludedContent(includedFile)
+            if (_options.annotations) {
+                return [
+                        '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
+                    includedFile.contents.toString(),
+                        '<!-- end ' + path.basename(includeAbsolutePath) + '-->'
+                ].join('\n')
+            } else {
+                return includedFile.contents.toString()
+            }
+        } else {
+            return line
+        }
+    })
+
+    file.contents = new Buffer(includedLines.join('\n'))
+    if (done) { done(file) }
+
+}
+
 function findMaster(string) {
     var regex = /<!--\s*@@master\s*=\s*(\S+)\s*-->/
     var match = string.match(regex)
@@ -146,7 +183,7 @@ function getBlockContent(string, blockName) {
     var inBlock = false
     var regex = new RegExp('<!--\\s*@@block\\s*=\\s*' + blockName + '\\s*-->')
 
-    return [ _options.annotations?'<!-- start ' + blockName + ' -->':'',
+    return [ _options.annotations ? '<!-- start ' + blockName + ' -->' : '',
         lines.reduce(function (prev, current) {
             if (inBlock) {
                 var matchEnd = /<!--\s*@@close\s*-->/.test(current)
@@ -164,7 +201,7 @@ function getBlockContent(string, blockName) {
                 return prev
             }
         }, ''),
-            _options.annotations?'\n<!-- end ' + blockName + ' -->':''
+        _options.annotations ? '\n<!-- end ' + blockName + ' -->' : ''
     ].join('\n')
 }
 
