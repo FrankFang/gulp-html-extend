@@ -85,7 +85,6 @@ gulp.task('default', ['clean', 'extend'])
 ```
 
 ## Changelog
-
 * 0.3.1
     * Add the verbose option `{verbose: true}`
     * Fix bugs of testing
