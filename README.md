@@ -67,7 +67,7 @@ var rm = require('gulp-rimraf')
 
 gulp.task('extend', function () {
     gulp.src('./*.html')
-        .pipe(extender({annotations:true}))
+        .pipe(extender({annotations:true,verbose:false})) // default options
         .pipe(gulp.dest('./output'))
 
 })
