@@ -6,23 +6,23 @@ master.html
 
 ```html
 <body>
-    <!-- @@placeholder=content -->
-    <!-- @@placeholder=footer -->
+    <!-- @@placeholder= content -->
+    <!-- @@placeholder =footer -->
 </body>
 ```
 
 content.html
 
 ```html
-<!-- @@master=master.html-->
+<!-- @@master  = master.html-->
 
-<!-- @@block=content-->
+<!-- @@block  =  content-->
 <main>
     my content
 </main>
 <!-- @@close-->
 
-<!-- @@block=footer-->
+<!-- @@block  =  footer-->
 <footer>
     my footer
 </footer>
