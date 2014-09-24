@@ -50,6 +50,10 @@ output
 </body>
 ```
 
+## Features
+
+* Nested extending
+* Nested including
 
 ## Install
 
