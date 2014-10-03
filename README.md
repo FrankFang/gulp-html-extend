@@ -89,6 +89,8 @@ gulp.task('default', ['clean', 'extend'])
 ```
 
 ## Changelog
+* 0.4.1 Fix bugs
+* 0.4.0 `@@var` support
 * 0.3.2 Fix bugs of testing
 * 0.3.1 Add the verbose option `{verbose: true}`
 * 0.3.0 You can include another file in an included file (nested including).
