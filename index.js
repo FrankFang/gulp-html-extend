@@ -79,7 +79,17 @@ function extendFile(file, afterExtend) {
 
     interpolateIncludedContent(file)
 
-    var masterRelativePath = findMaster(file.contents.toString('utf-8'))
+    var master = findMaster(file.contents.toString('utf-8'))
+
+    if (!master) {
+        afterExtend()
+        return
+    } else if (master.context) {
+        master.context = JSON.parse(master.context)
+    }
+
+    var masterRelativePath = master.path
+
     if (!masterRelativePath) {
         afterExtend()
         return
@@ -92,6 +102,7 @@ function extendFile(file, afterExtend) {
         extendFile(masterFile, function () {
 
             var masterContent = masterFile.contents.toString()
+            masterContent = interpolateVariables(masterContent, master.context)
             var lines = masterContent.split(/\n|\r|\r\n/)
 
             var newLines = lines.map(function (line, index, array) {
@@ -146,10 +157,9 @@ function interpolateIncludedContent(file, done) {
 }
 
 function findMaster(string) {
-    var regex = /<!--\s*@@master\s*=\s*(\S+)\s*-->/
+    var regex = /<!--\s*@@master\s*=\s*(\S+)\s*(?:([^-]+)\s*)?-->/
     var match = string.match(regex)
-    return match ? match[1] : null
-
+    return match ? {path: match[1], context: match[2]} : null
 }
 
 function findInclude(string) {
@@ -163,6 +173,17 @@ function findPlaceholder(string) {
     var regex = /<!--\s*@@placeholder\s*=\s*(\S+)\s*-->/
     var match = string.match(regex)
     return match ? match[1] : null
+}
+
+function interpolateVariables(template, context) {
+    if (!context) { return template }
+    var regex = /<!--\s*@@var\s*=\s*([^-]+)\s*-->/
+    var match = regex.exec(template)
+    while (match) {
+        template = template.replace(match[0], context[match[1]] || '')
+        match = regex.exec(template)
+    }
+    return template
 }
 
 function getBlockContent(string, blockName) {
