@@ -179,7 +179,7 @@ function findPlaceholder(string) {
 
 function interpolateVariables(template, context) {
     if (!context) { return template }
-    var regex = /<!--\s*@@var\s*=\s*([^-]+)\s*-->/
+    var regex = /<!--\s*@@var\s*=\s*([^- ]+)\s*-->/
     var match = regex.exec(template)
     while (match) {
         template = template.replace(match[0], context[match[1]] || '')
