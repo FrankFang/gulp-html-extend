@@ -102,10 +102,12 @@ function extendFile(file, afterExtend) {
         extendFile(masterFile, function () {
 
             var masterContent = masterFile.contents.toString()
-            masterContent = interpolateVariables(masterContent, master.context)
             var lines = masterContent.split(/\n|\r|\r\n/)
 
             var newLines = lines.map(function (line, index, array) {
+                if(line.indexOf('var')>=0) {
+                    line = interpolateVariables(line,master.context)
+                }
                 var blockName = findPlaceholder(line)
                 if (blockName) {
                     var blockContent = getBlockContent(file.contents.toString(), blockName)
