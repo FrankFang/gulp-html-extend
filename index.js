@@ -84,8 +84,6 @@ function extendFile(file, afterExtend) {
     if (!master) {
         afterExtend()
         return
-    } else if (master.context) {
-        master.context = JSON.parse(master.context)
     }
 
     var masterRelativePath = master.path
@@ -105,9 +103,7 @@ function extendFile(file, afterExtend) {
             var lines = masterContent.split(/\n|\r|\r\n/)
 
             var newLines = lines.map(function (line, index, array) {
-                if(line.indexOf('var')>=0) {
-                    line = interpolateVariables(line,master.context)
-                }
+                line = interpolateVariables(line, master.context)
                 var blockName = findPlaceholder(line)
                 if (blockName) {
                     var blockContent = getBlockContent(file.contents.toString(), blockName)
@@ -133,11 +129,19 @@ function interpolateIncludedContent(file, done) {
     var fileContent = file.contents.toString()
     var fileLines = splitByLine(fileContent)
     var includedLines = fileLines.map(function (line) {
-        var includeRelativePath = findInclude(line)
+        var include = findInclude(line)
+        var includeRelativePath
+        if (include) {
+            includeRelativePath = include.path
+        }
         if (includeRelativePath) {
             var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
             log('[include]', includeAbsolutePath)
             var includedFile = makeFile(includeAbsolutePath)
+            if (include.context) {
+                includedFile.contents = new Buffer(interpolateVariables(includedFile.contents.toString(),
+                    include.context))
+            }
             interpolateIncludedContent(includedFile)
             if (_options.annotations) {
                 return [
@@ -161,13 +165,19 @@ function interpolateIncludedContent(file, done) {
 function findMaster(string) {
     var regex = /<!--\s*@@master\s*=\s*(\S+)\s*(?:([^-]+)\s*)?-->/
     var match = string.match(regex)
-    return match ? {path: match[1], context: match[2]} : null
+    return match ? {
+        path: match[1],
+        context: match[2] ? JSON.parse(match[2]) : null
+    } : null
 }
 
 function findInclude(string) {
-    var regex = /<!--\s*@@include\s*=\s*(\S+)\s*-->/
+    var regex = /<!--\s*@@include\s*=\s*(\S+)\s*(?:([^-]+)\s*)?-->/
     var match = string.match(regex)
-    return match ? match[1] : null
+    return match ? {
+        path: match[1],
+        context: match[2] ? JSON.parse(match[2]) : null
+    } : null
 
 }
 
@@ -179,6 +189,7 @@ function findPlaceholder(string) {
 
 function interpolateVariables(template, context) {
     if (!context) { return template }
+    if (template.indexOf('var') < 0) { return template }
     var regex = /<!--\s*@@var\s*=\s*([^- ]+)\s*-->/
     var match = regex.exec(template)
     while (match) {
