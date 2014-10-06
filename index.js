@@ -163,7 +163,7 @@ function interpolateIncludedContent(file, done) {
 }
 
 function findMaster(string) {
-    var regex = /<!--\s*@@master\s*=\s*(\S+)\s*(?:([^-]+)\s*)?-->/
+    var regex = /<!--\s*@@master\s*[= ]\s*(\S+)\s*(?:([^-]+)\s*)?-->/
     var match = string.match(regex)
     return match ? {
         path: match[1],
@@ -172,7 +172,7 @@ function findMaster(string) {
 }
 
 function findInclude(string) {
-    var regex = /<!--\s*@@include\s*=\s*(\S+)\s*(?:([^-]+)\s*)?-->/
+    var regex = /<!--\s*@@include\s*[= ]\s*(\S+)\s*(?:([^-]+)\s*)?-->/
     var match = string.match(regex)
     return match ? {
         path: match[1],
@@ -182,15 +182,15 @@ function findInclude(string) {
 }
 
 function findPlaceholder(string) {
-    var regex = /<!--\s*@@placeholder\s*=\s*(\S+)\s*-->/
+    var regex = /<!--\s*@@placeholder\s*[= ]\s*(\S+)\s*-->/
     var match = string.match(regex)
     return match ? match[1] : null
 }
 
 function interpolateVariables(template, context) {
     if (!context) { return template }
-    if (template.indexOf('var') < 0) { return template }
-    var regex = /<!--\s*@@var\s*=\s*([^- ]+)\s*-->/
+    if (template.indexOf('@@var') < 0) { return template }
+    var regex = /<!--\s*@@var\s*[= ]\s*([^- ]+)\s*-->/
     var match = regex.exec(template)
     while (match) {
         template = template.replace(match[0], context[match[1]] || '')
@@ -203,7 +203,7 @@ function getBlockContent(string, blockName) {
     var result = ''
     var lines = splitByLine(string)
     var inBlock = false
-    var regex = new RegExp('<!--\\s*@@block\\s*=\\s*' + blockName + '\\s*-->')
+    var regex = new RegExp('<!--\\s*@@block\\s*[= ]\\s*' + blockName + '\\s*-->')
 
     return [ _options.annotations ? '<!-- start ' + blockName + ' -->' : '',
         lines.reduce(function (prev, current) {
