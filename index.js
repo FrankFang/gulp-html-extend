@@ -9,7 +9,7 @@ var gUtil = require('gulp-util')
 var PluginError = gUtil.PluginError
 var es = require('event-stream')
 var extend = require('node.extend')
-var async = require("async")
+var async = require('async')
 
 var pkg = require('./package.json')
 
