@@ -52,7 +52,7 @@ describe('gulp-html-extend', function () {
     })
 
     it('should extend single html file', function (done) {
-        var htmlFile = createVinyl('c.html')
+        var htmlFile = createVinyl('extend_and_include.html')
 
         var instance = plugin()
 
@@ -60,7 +60,7 @@ describe('gulp-html-extend', function () {
             should.exist(extendedFile)
             should.exist(extendedFile.contents)
             extendedFile.contents.toString().should.equal(
-                fs.readFileSync(pj(__dirname, 'expected/c.html'), 'utf8'))
+                fs.readFileSync(pj(__dirname, 'expected/extend_and_include.html'), 'utf8'))
             done()
         })
 
@@ -68,7 +68,7 @@ describe('gulp-html-extend', function () {
     })
 
     it('should disable annotations', function (done) {
-        var htmlFile = createVinyl('c.html')
+        var htmlFile = createVinyl('extend_and_include.html')
 
         var instance = plugin({annotations: false})
 
@@ -85,8 +85,8 @@ describe('gulp-html-extend', function () {
 
     it('should extend multiple html files', function (done) {
         var files = [
-            createVinyl('c.html'),
-            createVinyl('d.html')
+            createVinyl('extend_and_include.html'),
+            createVinyl('another.html')
         ]
 
         var instance = plugin()
