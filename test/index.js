@@ -76,7 +76,7 @@ describe('gulp-html-extend', function () {
             should.exist(extendedFile)
             should.exist(extendedFile.contents)
             extendedFile.contents.toString().should.equal(
-                fs.readFileSync(pj(__dirname, 'expected/c_no_annotations.html'), 'utf8'))
+                fs.readFileSync(pj(__dirname, 'expected/no_annotations.html'), 'utf8'))
             done()
         })
 
