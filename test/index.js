@@ -76,7 +76,8 @@ describe('gulp-html-extend', function () {
             should.exist(extendedFile)
             should.exist(extendedFile.contents)
             extendedFile.contents.toString().should.equal(
-                fs.readFileSync(pj(__dirname, 'expected/no_annotations.html'), 'utf8'))
+                fs.readFileSync(pj(__dirname, 'expected/no_annotations.html'), 'utf8')
+            )
             done()
         })
 
@@ -94,6 +95,12 @@ describe('gulp-html-extend', function () {
         instance.on('data', function (htmlFile) {
             should.exist(htmlFile)
             should.exist(htmlFile.contents)
+
+            console.log(htmlFile.path.replace('fixtures', 'expected'));
+
+            htmlFile.contents.toString().should.equal(
+                fs.readFileSync(htmlFile.path.replace('fixtures', 'expected'), 'utf8')
+            )
 
             count -= 1
             if (count === 0) { done() }
