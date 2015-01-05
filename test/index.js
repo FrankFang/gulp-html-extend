@@ -96,8 +96,6 @@ describe('gulp-html-extend', function () {
             should.exist(htmlFile)
             should.exist(htmlFile.contents)
 
-            console.log(htmlFile.path.replace('fixtures', 'expected'));
-
             htmlFile.contents.toString().should.equal(
                 fs.readFileSync(htmlFile.path.replace('fixtures', 'expected'), 'utf8')
             )
