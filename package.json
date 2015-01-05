@@ -1,6 +1,6 @@
 {
   "name": "gulp-html-extend",
-    "version": "0.5.0",
+  "version": "0.5.0",
   "description": "Make it easy to extend html",
   "repository": {
     "type": "git",
@@ -26,10 +26,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "event-stream": "~3.1.7",
+    "event-stream": "^3.1.7",
     "gulp-util": "~3.0.0",
     "node.extend": "^1.1.2",
-    "through2": "~0.5.1"
+    "through2": "^0.5.1"
   },
   "devDependencies": {
     "chai": "~1.9.1",
