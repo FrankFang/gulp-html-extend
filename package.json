@@ -32,10 +32,10 @@
     "through2": "^0.5.1"
   },
   "devDependencies": {
-    "chai": "~1.9.1",
-    "mocha": "~1.21.0",
-    "vinyl": "~0.3.0",
-    "should": "~4.0.4",
-    "jshint": "~2.5.2"
+    "chai": "*",
+    "mocha": "*",
+    "vinyl": "*",
+    "should": "*",
+    "jshint": "*"
   }
 }
