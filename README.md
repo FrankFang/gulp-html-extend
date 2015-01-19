@@ -1,6 +1,6 @@
 # gulp-html-extend [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 
-## Make it easy to extend, include or replace your html files
+## Make it easy to extend, include and replace your html files
 
 master.html
 
