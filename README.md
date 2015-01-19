@@ -1,6 +1,6 @@
 # gulp-html-extend [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 
-## You want to include or replace html files? Just use this tool!
+## Make it easy to extend, include or replace your html files
 
 master.html
 
