@@ -100,7 +100,7 @@ function extendFile(file, afterExtend) {
         extendFile(masterFile, function () {
 
             var masterContent = masterFile.contents.toString()
-            var lines = masterContent.split(/\n|\r|\r\n/)
+            var lines = splitByLine(masterContent)
 
             var newLines = lines.map(function (line, index, array) {
                 line = interpolateVariables(line, master.context)
@@ -228,6 +228,6 @@ function getBlockContent(string, blockName) {
 }
 
 function splitByLine(string) {
-    return string.split(/\n|\r|\r\n/)
+    return string.split(/\r\n|\n|\r/)
 }
 
