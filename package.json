@@ -1,7 +1,7 @@
 {
   "name": "gulp-html-extend",
-  "version": "0.5.6",
-  "description": "Make it easy to extend html",
+  "version": "1.0.0",
+  "description": "extend, include and replace html files",
   "repository": {
     "type": "git",
     "url": "https://github.com/FrankFang/gulp-html-extend.git"
