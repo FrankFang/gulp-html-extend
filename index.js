@@ -43,7 +43,7 @@ module.exports = function (options) {
 
         if (file.isBuffer()) {
 
-            extendFile(file, function (noMaster) {
+            extendFile(file,_options, function (noMaster) {
                 return cb(null, file)
             })
         }
@@ -73,7 +73,7 @@ function makeFile(absolutePath, cb) {
     }
 }
 
-function extendFile(file, afterExtend) {
+function extendFile(file, options ,afterExtend) {
 
     log('[extend]', file.path)
 
@@ -81,23 +81,36 @@ function extendFile(file, afterExtend) {
 
     var master = findMaster(file.contents.toString('utf-8'))
 
-    if (!master) {
+    if (!master) { // I have not checked for include
         afterExtend()
         return
     }
 
     var masterRelativePath = master.path
 
+    log('[-----]' + masterRelativePath)
+
     if (!masterRelativePath) {
         afterExtend()
         return
     }
 
-    var masterAbsolute = path.join(path.dirname(file.path), masterRelativePath)
+    var masterAbsolute 
+    if(options.root){
+        if(isRelativeToRoot(masterRelativePath)){
+            masterAbsolute = path.join(__dirname, options.root, masterRelativePath)
+            console.log(__dirname)
+            console.log(masterAbsolute)
+        }else{
+            masterAbsolute = path.join(path.dirname(file.path), masterRelativePath)
+        }
+    }else{
+        masterAbsolute = path.join(path.dirname(file.path), masterRelativePath)
+    }
 
     makeFile(masterAbsolute, function (masterFile) {
 
-        extendFile(masterFile, function () {
+        extendFile(masterFile, _options, function () {
 
             var masterContent = masterFile.contents.toString()
             var lines = splitByLine(masterContent)
@@ -231,3 +244,10 @@ function splitByLine(string) {
     return string.split(/\r\n|\n|\r/)
 }
 
+
+function inAbsolutePath(p){
+    return path.resolve(p) === path.normalize(p)
+}
+function isRelativeToRoot(p){
+    return p.indexOf(path.normalize(path.sep)) === 0
+}

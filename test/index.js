@@ -54,7 +54,7 @@ describe('gulp-html-extend', function () {
     it('should extend single html file', function (done) {
         var htmlFile = createVinyl('extend_and_include.html')
 
-        var instance = plugin()
+        var instance = plugin({verbose: false, root:'test/fixtures/'})
 
         instance.on('data', function (extendedFile) {
             should.exist(extendedFile)
