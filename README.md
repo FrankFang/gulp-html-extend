@@ -89,6 +89,8 @@ gulp.task('default', ['clean', 'extend'])
 ```
 
 ## Changelog
+* 1.1.0 Support absolute path
+* 1.0.0 No much changes
 * 0.5.0
     * `@@var` support for `@@include`
     * `=` is optional
