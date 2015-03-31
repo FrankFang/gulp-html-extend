@@ -50,17 +50,32 @@ describe('gulp-html-extend', function () {
         })
         instance.write(stream)
     })
-
     it('should extend single html file', function (done) {
         var htmlFile = createVinyl('extend_and_include.html')
 
-        var instance = plugin({verbose: false, root:'test/fixtures/'})
+        var instance = plugin()
 
         instance.on('data', function (extendedFile) {
             should.exist(extendedFile)
             should.exist(extendedFile.contents)
             extendedFile.contents.toString().should.equal(
                 fs.readFileSync(pj(__dirname, 'expected/extend_and_include.html'), 'utf8'))
+            done()
+        })
+
+        instance.write(htmlFile)
+    })
+
+    it('should support absolute path', function (done) {
+        var htmlFile = createVinyl('absolute_path.html')
+
+        var instance = plugin({verbose: false, root:'test'})
+
+        instance.on('data', function (extendedFile) {
+            should.exist(extendedFile)
+            should.exist(extendedFile.contents)
+            extendedFile.contents.toString().should.equal(
+                fs.readFileSync(pj(__dirname, 'expected/absolute_path.html'),'utf8'))
             done()
         })
 

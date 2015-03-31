@@ -77,7 +77,7 @@ function extendFile(file, options ,afterExtend) {
 
     log('[extend]', file.path)
 
-    interpolateIncludedContent(file)
+    interpolateIncludedContent(file, options)
 
     var master = findMaster(file.contents.toString('utf-8'))
 
@@ -96,14 +96,8 @@ function extendFile(file, options ,afterExtend) {
     }
 
     var masterAbsolute 
-    if(options.root){
-        if(isRelativeToRoot(masterRelativePath)){
-            masterAbsolute = path.join(__dirname, options.root, masterRelativePath)
-            console.log(__dirname)
-            console.log(masterAbsolute)
-        }else{
-            masterAbsolute = path.join(path.dirname(file.path), masterRelativePath)
-        }
+    if(options.root && isRelativeToRoot(masterRelativePath)){
+        masterAbsolute = path.join(__dirname, options.root, masterRelativePath)
     }else{
         masterAbsolute = path.join(path.dirname(file.path), masterRelativePath)
     }
@@ -138,24 +132,25 @@ function extendFile(file, options ,afterExtend) {
 
 }
 
-function interpolateIncludedContent(file, done) {
+function interpolateIncludedContent(file, options) {
     var fileContent = file.contents.toString()
     var fileLines = splitByLine(fileContent)
     var includedLines = fileLines.map(function (line) {
         var include = findInclude(line)
-        var includeRelativePath
-        if (include) {
-            includeRelativePath = include.path
-        }
-        if (includeRelativePath) {
-            var includeAbsolutePath = path.join(path.dirname(file.path), includeRelativePath)
+        if (include && include.path) {
+            var includeAbsolutePath
+            if(options.root && isRelativeToRoot(include.path)){
+                includeAbsolutePath = path.join(__dirname, options.root, include.path)
+            }else{
+                includeAbsolutePath = path.join(path.dirname(file.path), include.path)
+            }
             log('[include]', includeAbsolutePath)
             var includedFile = makeFile(includeAbsolutePath)
             if (include.context) {
                 includedFile.contents = new Buffer(interpolateVariables(includedFile.contents.toString(),
                     include.context))
             }
-            interpolateIncludedContent(includedFile)
+            interpolateIncludedContent(includedFile, options)
             if (_options.annotations) {
                 return [
                         '<!-- start ' + path.basename(includeAbsolutePath) + '-->',
@@ -171,7 +166,6 @@ function interpolateIncludedContent(file, done) {
     })
 
     file.contents = new Buffer(includedLines.join('\n'))
-    if (done) { done(file) }
 
 }
 
