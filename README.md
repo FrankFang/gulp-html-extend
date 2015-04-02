@@ -88,6 +88,20 @@ gulp.task('clean', function (cb) {
 gulp.task('default', ['clean', 'extend'])
 ```
 
+## Options
+
+**annotations** [bool]
+
+Make it `false` if you dont want too see `<!-- start foo.html -->` in output files.
+
+**verbose** [bool]
+
+Show extra info in the console.
+
+**root** [string (dir path)]
+
+To make absolute path which starts with `/` works.
+
 ## Changelog
 * 1.1.0 Support absolute path `{root: "path/relative/to/__dirname"}`
 * 1.0.0 No much changes
