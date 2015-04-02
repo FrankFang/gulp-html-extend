@@ -67,7 +67,6 @@ $ npm install --save-dev gulp-html-extend
 ```js
 var gulp = require('gulp')
 var extender = require('gulp-html-extend')
-var rm = require('gulp-rimraf')
 
 gulp.task('extend', function () {
     gulp.src('./*.html')
@@ -79,14 +78,9 @@ gulp.task('watch', function () {
     gulp.watch(['./*.html'], ['extend'])
 })
 
-gulp.task('clean', function (cb) {
-    gulp.src('./output/*.html', {read: false})
-        .pipe(rm())
-    cb()
-})
-
-gulp.task('default', ['clean', 'extend'])
+...
 ```
+
 
 ## Options
 
