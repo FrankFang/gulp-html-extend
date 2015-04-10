@@ -97,6 +97,7 @@ Show extra info in the console.
 To make absolute path which starts with `/` works.
 
 ## Changelog
+* 1.1.1 cwd bug fix
 * 1.1.0 Support absolute path `{root: "path/relative/to/__dirname"}`
 * 1.0.0 No much changes
 * 0.5.0
