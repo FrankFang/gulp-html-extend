@@ -75,20 +75,21 @@ function makeFile(absolutePath, cb) {
 
 function extendFile(file, options ,afterExtend) {
 
-    log('[extend]', file.path)
+    log('[going to extend]', file.path)
 
     interpolateIncludedContent(file, options)
 
     var master = findMaster(file.contents.toString('utf-8'))
 
     if (!master) { // I have not checked for include
+        log('[no master]', file.path)
         afterExtend()
         return
     }
 
     var masterRelativePath = master.path
 
-    log('[-----]' + masterRelativePath)
+    log('[find master path]' + masterRelativePath)
 
     if (!masterRelativePath) {
         afterExtend()
@@ -97,7 +98,7 @@ function extendFile(file, options ,afterExtend) {
 
     var masterAbsolute 
     if(options.root && isRelativeToRoot(masterRelativePath)){
-        masterAbsolute = path.join(__dirname, options.root, masterRelativePath)
+        masterAbsolute = path.join(process.cwd(), options.root, masterRelativePath)
     }else{
         masterAbsolute = path.join(path.dirname(file.path), masterRelativePath)
     }
@@ -140,7 +141,7 @@ function interpolateIncludedContent(file, options) {
         if (include && include.path) {
             var includeAbsolutePath
             if(options.root && isRelativeToRoot(include.path)){
-                includeAbsolutePath = path.join(__dirname, options.root, include.path)
+                includeAbsolutePath = path.join(process.cwd(), options.root, include.path)
             }else{
                 includeAbsolutePath = path.join(path.dirname(file.path), include.path)
             }
