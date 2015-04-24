@@ -239,10 +239,6 @@ function splitByLine(string) {
     return string.split(/\r\n|\n|\r/)
 }
 
-
-function inAbsolutePath(p){
-    return path.resolve(p) === path.normalize(p)
-}
 function isRelativeToRoot(p){
-    return p.indexOf(path.normalize(path.sep)) === 0
+    return p.indexOf('/') === 0
 }
