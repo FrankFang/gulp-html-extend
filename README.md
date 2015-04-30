@@ -97,6 +97,7 @@ Show extra info in the console.
 To make absolute path which starts with `/` works.
 
 ## Changelog
+* 1.1.4 add testing for only includings case.
 * 1.1.3 absolute path bug fix [#7](https://github.com/FrankFang/gulp-html-extend/issues/7)
 * 1.1.2 cwd bug fix [#6](https://github.com/FrankFang/gulp-html-extend/issues/6)
 * 1.1.0 Support absolute path `{root: "path/relative/to/cwd"}`
