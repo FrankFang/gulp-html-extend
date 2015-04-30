@@ -81,6 +81,15 @@ gulp.task('watch', function () {
 ...
 ```
 
+## Syntax
+
+* @@master [=] path [jsonString]
+* @@placeholder [=] blockName
+* @@include [=] path [jsonString]
+* @@var [=] variableName
+* @@block [=] blockName
+* @@close
+
 
 ## Options
 
