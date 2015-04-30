@@ -83,12 +83,29 @@ gulp.task('watch', function () {
 
 ## Syntax
 
-* @@master [=] path [jsonString]
-* @@placeholder [=] blockName
-* @@include [=] path [jsonString]
-* @@var [=] variableName
-* @@block [=] blockName
-* @@close
+**@@master [=] path [jsonString]**
+
+e.g. `<!-- @@master master.html {"foo":"bar"} -->`
+
+**@@placeholder [=] blockName**
+
+e.g. `<!-- @@placeholder footer -->`
+
+**@@include [=] path [jsonString]**
+
+e.g. `<!-- @@include /footer.html {"foo":"bar"} -->`
+
+**@@var [=] variableName**
+
+e.g. `<!-- @@var foo -->`
+
+**@@block [=] blockName**
+
+e.g. `<!-- @@block footer -->`
+
+**@@close**
+
+You must add `<!-- @@close -->` at the end of every block
 
 
 ## Options
