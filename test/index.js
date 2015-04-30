@@ -28,7 +28,9 @@ describe('gulp-html-extend', function () {
     it('should pass file when it isNull()', function (done) {
         var instance = plugin()
         var emptyFile = {
-            isNull: function () { return true }
+            isNull: function () {
+                return true
+            }
         }
         instance.on('data', function (data) {
             data.should.equal(emptyFile)
@@ -41,8 +43,12 @@ describe('gulp-html-extend', function () {
 
         var instance = plugin()
         var stream = {
-            isNull: function () { return false },
-            isStream: function () { return true }
+            isNull: function () {
+                return false
+            },
+            isStream: function () {
+                return true
+            }
         }
         instance.on('error', function (error) {
             error.message.should.equal('Streaming is not supported')
@@ -69,13 +75,16 @@ describe('gulp-html-extend', function () {
     it('should support absolute path', function (done) {
         var htmlFile = createVinyl('absolute_path.html')
 
-        var instance = plugin({verbose: false, root:'test'})
+        var instance = plugin({
+            verbose: false,
+            root: 'test'
+        })
 
         instance.on('data', function (extendedFile) {
             should.exist(extendedFile)
             should.exist(extendedFile.contents)
             extendedFile.contents.toString().should.equal(
-                fs.readFileSync(pj(__dirname, 'expected/absolute_path.html'),'utf8'))
+                fs.readFileSync(pj(__dirname, 'expected/absolute_path.html'), 'utf8'))
             done()
         })
 
@@ -85,7 +94,9 @@ describe('gulp-html-extend', function () {
     it('should disable annotations', function (done) {
         var htmlFile = createVinyl('extend_and_include.html')
 
-        var instance = plugin({annotations: false})
+        var instance = plugin({
+            annotations: false
+        })
 
         instance.on('data', function (extendedFile) {
             should.exist(extendedFile)
@@ -116,12 +127,31 @@ describe('gulp-html-extend', function () {
             )
 
             count -= 1
-            if (count === 0) { done() }
+            if (count === 0) {
+                done()
+            }
         })
 
         files.forEach(function (file) {
             instance.write(file)
         })
+    })
+
+    it('only uses @@include', function (done) {
+        var htmlFile = createVinyl('only_include.html')
+        var instance = plugin({
+            annotations: false
+        })
+
+        instance.on('data', function (extendedFile) {
+            should.exist(extendedFile.contents)
+            extendedFile.contents.toString().should.equal(
+                fs.readFileSync(pj(__dirname, 'expected/only_include.html'), 'utf8')
+            )
+            done()
+        })
+
+        instance.write(htmlFile)
     })
 
 })
