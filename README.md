@@ -61,26 +61,6 @@ output
 $ npm install --save-dev gulp-html-extend
 ```
 
-
-## Usage
-
-```js
-var gulp = require('gulp')
-var extender = require('gulp-html-extend')
-
-gulp.task('extend', function () {
-    gulp.src('./*.html')
-        .pipe(extender({annotations:true,verbose:false})) // default options
-        .pipe(gulp.dest('./output'))
-
-})
-gulp.task('watch', function () {
-    gulp.watch(['./*.html'], ['extend'])
-})
-
-...
-```
-
 ## Syntax
 
 **@@master [=] path [jsonString]**
@@ -107,6 +87,25 @@ e.g. `<!-- @@block footer -->`
 
 You must add `<!-- @@close -->` at the end of every block
 
+
+## Usage
+
+```js
+var gulp = require('gulp')
+var extender = require('gulp-html-extend')
+
+gulp.task('extend', function () {
+    gulp.src('./*.html')
+        .pipe(extender({annotations:true,verbose:false})) // default options
+        .pipe(gulp.dest('./output'))
+
+})
+gulp.task('watch', function () {
+    gulp.watch(['./*.html'], ['extend'])
+})
+
+...
+```
 
 ## Options
 
