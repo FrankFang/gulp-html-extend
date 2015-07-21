@@ -96,7 +96,7 @@ function extendFile(file, options ,afterExtend) {
         return
     }
 
-    var masterAbsolute 
+    var masterAbsolute
     if(options.root && isRelativeToRoot(masterRelativePath)){
         masterAbsolute = path.join(process.cwd(), options.root, masterRelativePath)
     }else{
@@ -198,10 +198,13 @@ function findPlaceholder(string) {
 function interpolateVariables(template, context) {
     if (!context) { return template }
     if (template.indexOf('@@var') < 0) { return template }
-    var regex = /<!--\s*@@var\s*[= ]\s*(\S+?)\s*-->/
+    var regex = /<!--\s*@@var\s*[= ]\s*(\S+?)\s*(?:"([^"\\]*(?:\\.[^"\\]*)*)"\s*)?-->/
     var match = regex.exec(template)
     while (match) {
-        template = template.replace(match[0], context[match[1]] || '')
+        if (match[2] !== undefined) {
+          match[2] = match[2].replace(/\\"/g, '"');
+        }
+        template = template.replace(match[0], context[match[1]] || match[2] || '')
         match = regex.exec(template)
     }
     return template
