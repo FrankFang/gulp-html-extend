@@ -108,7 +108,11 @@ function extendFile(file, options ,afterExtend) {
         extendFile(masterFile, _options, function () {
 
             var masterContent = masterFile.contents.toString()
-            var lines = splitByLine(masterContent)
+            var operatorRegEx = /(<!-- @@(?:(?:\n?.)*?)-->)/g
+            var masterContentCleared = masterContent.replace(operatorRegEx, function(operator){
+               return operator.replace(/\n/g, '');
+            })
+            var lines = splitByLine(masterContentCleared)
 
             var newLines = lines.map(function (line, index, array) {
                 line = interpolateVariables(line, master.context)
@@ -135,7 +139,11 @@ function extendFile(file, options ,afterExtend) {
 
 function interpolateIncludedContent(file, options) {
     var fileContent = file.contents.toString()
-    var fileLines = splitByLine(fileContent)
+    var operatorRegEx = /(<!--\s*?@@(?:(?:\n?.)*?)-->)/g
+    var fileContentCleared = fileContent.replace(operatorRegEx, function(operator){
+       return operator.replace(/\n/g, '');
+    })
+    var fileLines = splitByLine(fileContentCleared)
     var includedLines = fileLines.map(function (line) {
         var include = findInclude(line)
         if (include && include.path) {

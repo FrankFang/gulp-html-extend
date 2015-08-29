@@ -154,4 +154,22 @@ describe('gulp-html-extend', function () {
         instance.write(htmlFile)
     })
 
+    it('should support multiline JSON', function (done) {
+        var htmlFile = createVinyl('multiline_json.html')
+
+        var instance = plugin({
+            verbose: false,
+            root: 'test'
+        })
+
+        instance.on('data', function (extendedFile) {
+            should.exist(extendedFile)
+            should.exist(extendedFile.contents)
+            extendedFile.contents.toString().should.equal(
+                fs.readFileSync(pj(__dirname, 'expected/absolute_path.html'), 'utf8'))
+            done()
+        })
+
+        instance.write(htmlFile)
+    })
 })
