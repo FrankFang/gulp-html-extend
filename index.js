@@ -81,7 +81,7 @@ function extendFile(file, options ,afterExtend) {
 
     var master = findMaster(file.contents.toString('utf-8'))
 
-    if (!master) { // I have not checked for include
+    if (!master) { 
         log('[no master]', file.path)
         afterExtend()
         return
