@@ -122,6 +122,7 @@ Show extra info in the console.
 To make absolute path which starts with `/` works.
 
 ## Changelog
+* 1.2.0 Supoort multiply-lines json 
 * 1.1.6 variable default value ``@var foo "defaultValue"``
 * 1.1.4 add testing for only includings case.
 * 1.1.3 absolute path bug fix [#7](https://github.com/FrankFang/gulp-html-extend/issues/7)
