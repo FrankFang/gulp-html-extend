@@ -111,7 +111,7 @@ gulp.task('watch', function () {
 
 **annotations** [bool]
 
-Make it `false` if you dont want too see `<!-- start foo.html -->` in output files.
+Make it `false` if you dont want `<!-- start foo.html -->` in output files.
 
 **verbose** [bool]
 
