@@ -119,7 +119,7 @@ Show extra info in the console.
 
 **root** [string (dir path)]
 
-To make absolute path which starts with `/` works.
+Enable absolute paths which start with `/`.
 
 ## Changelog
 * 1.2.0 Supoort multiply-lines json 
