@@ -63,6 +63,8 @@ $ npm install --save-dev gulp-html-extend
 
 ## Syntax
 
+P.S. [=] means the `=` sign is optional.
+
 **@@master [=] path [jsonString]**
 
 e.g. `<!-- @@master master.html {"foo":"bar"} -->`
